@@ -80,6 +80,7 @@ def enhancer_generator_no_len(images, method='gfpgan', bg_upsampler='realesrgan'
             from realesrgan import RealESRGANer
             model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=2)
             bg_upsampler = RealESRGANer(
+                device='mps',
                 scale=2,
                 model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.1/RealESRGAN_x2plus.pth',
                 model=model,
@@ -101,6 +102,7 @@ def enhancer_generator_no_len(images, method='gfpgan', bg_upsampler='realesrgan'
         model_path = url
 
     restorer = GFPGANer(
+        device='mps',
         model_path=model_path,
         upscale=2,
         arch=arch,

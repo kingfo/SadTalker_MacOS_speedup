@@ -9,6 +9,7 @@ from src.generate_batch import get_data
 from src.generate_facerender_batch import get_facerender_data
 from src.utils.init_path import init_path
 from cog import BasePredictor, Input, Path
+import torch
 
 checkpoints = "checkpoints"
 
@@ -16,8 +17,10 @@ checkpoints = "checkpoints"
 class Predictor(BasePredictor):
     def setup(self):
         """Load the model into memory to make running multiple predictions efficient"""
-        device = "cuda"
+        # device = "cuda"
 
+        # Get device
+        device = "cuda" if torch.cuda.is_available() else "mps"
         
         sadtalker_paths = init_path(checkpoints,os.path.join("src","config"))
 

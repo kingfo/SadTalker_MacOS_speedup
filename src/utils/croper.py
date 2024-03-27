@@ -17,7 +17,7 @@ import numpy as np
 from PIL import Image
 
 class Preprocesser:
-    def __init__(self, device='cuda'):
+    def __init__(self, device='mps'):
         self.predictor = KeypointExtractor(device)
 
     def get_landmark(self, img_np):
