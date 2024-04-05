@@ -42,7 +42,7 @@ class AnimateFromCoeff_PIRender():
         self.device = device
     
 
-    def generate(self, x, video_save_dir, pic_path, crop_info, enhancer=None, background_enhancer=None, preprocess='crop', img_size=256):
+    def generate(self, x, video_save_dir, pic_path, crop_info, enhancer=None, background_enhancer=None, preprocess='crop', img_size=256, max_threads=5):
 
         source_image=x['source_image'].type(torch.FloatTensor)
         source_semantics=x['source_semantics'].type(torch.FloatTensor)
@@ -100,8 +100,9 @@ class AnimateFromCoeff_PIRender():
             video_name_full = x['video_name']  + '_full.mp4'
             full_video_path = os.path.join(video_save_dir, video_name_full)
             return_path = full_video_path
-            paste_pic(path, pic_path, crop_info, new_audio_path, full_video_path, extended_crop= True if 'ext' in preprocess.lower() else False)
-            print(f'The generated video is named {video_save_dir}/{video_name_full}') 
+            # paste_pic(path, pic_path, crop_info, new_audio_path, full_video_path, extended_crop= True if 'ext' in preprocess.lower() else False)
+            paste_pic(path, pic_path, crop_info, new_audio_path, full_video_path, extended_crop= True if 'ext' in preprocess.lower() else False,max_threads=max_threads)
+            print(f'The generated video is named {video_save_dir}/{video_name_full}')
         else:
             full_video_path = av_path 
 

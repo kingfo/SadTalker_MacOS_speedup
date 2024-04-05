@@ -48,7 +48,7 @@ class SadTalker():
         ref_info = None,
         use_idle_mode = False,
         length_of_audio = 0, use_blink=True,
-        result_dir='./results/'):
+        result_dir='./results/',max_threads=5):
 
         self.sadtalker_paths = init_path(self.checkpoint_path, self.config_path, size, False, preprocess)
         print(self.sadtalker_paths)
@@ -59,6 +59,7 @@ class SadTalker():
         if facerender == 'facevid2vid' and self.device != 'mps':
             self.animate_from_coeff = AnimateFromCoeff(self.sadtalker_paths, self.device)
         elif facerender == 'pirender' or self.device == 'mps':
+            # MacOS 兼容模式，进一步优化 seamlessClone
             self.animate_from_coeff = AnimateFromCoeff_PIRender(self.sadtalker_paths, self.device)
             facerender = 'pirender'
         else:
@@ -153,7 +154,7 @@ class SadTalker():
         #coeff2video
         data = get_facerender_data(coeff_path, crop_pic_path, first_coeff_path, audio_path, batch_size, still_mode=still_mode, \
             preprocess=preprocess, size=size, expression_scale = exp_scale, facemodel=facerender)
-        return_path = self.animate_from_coeff.generate(data, save_dir,  pic_path, crop_info, enhancer='gfpgan' if use_enhancer else None, preprocess=preprocess, img_size=size)
+        return_path = self.animate_from_coeff.generate(data, save_dir,  pic_path, crop_info, enhancer='gfpgan' if use_enhancer else None, preprocess=preprocess, img_size=size, max_threads=max_threads)
         video_name = data['video_name']
         print(f'The generated video is named {video_name} in {save_dir}')
 
