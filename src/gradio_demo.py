@@ -27,7 +27,9 @@ class SadTalker():
             device = "mps"
         else:
             device = "cpu"
-        
+
+        print(f'SadTalker device is "{device}",and platform system is "{platform.system()}"')
+
         self.device = device
 
         os.environ['TORCH_HOME']= checkpoint_path
